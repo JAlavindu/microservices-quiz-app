@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.lavindu.quizapp.entity.Question;
 import com.lavindu.quizapp.service.QuestionService;
@@ -21,18 +23,33 @@ public class QuestionController {
     private QuestionService questionService;
 
     @GetMapping("allQuestions")
-    public List<Question> getAllQuestions() {
-        return questionService.getAllQuestions();
+    public ResponseEntity<List<Question>> getAllQuestions() {
+        try{
+        return new ResponseEntity<>(questionService.getAllQuestions(), HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("category/{category}")
-    public List<Question> getQuestionByCategory(@PathVariable String category) {
-        return questionService.getQuestionByCategory(category);
+    public ResponseEntity<List<Question>> getQuestionByCategory(@PathVariable String category) {
+        try{
+            return new ResponseEntity<>(questionService.getQuestionByCategory(category), HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("add")
-    public String addQuestion(@RequestBody Question question) {
-        questionService.addQuestion(question);
-        return "Question added successfully";
+    public ResponseEntity<String> addQuestion(@RequestBody Question question) {
+        try{
+            questionService.addQuestion(question);
+            return new ResponseEntity<>("Question added successfully", HttpStatus.CREATED);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Failed to add question", HttpStatus.BAD_REQUEST);
     }
 }
