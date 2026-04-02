@@ -13,6 +13,7 @@ import com.lavindu.quizapp.DAO.QuizDao;
 import com.lavindu.quizapp.entity.Question;
 import com.lavindu.quizapp.entity.QuestionWrapper;
 import com.lavindu.quizapp.entity.Quiz;
+import com.lavindu.quizapp.entity.Response;
 
 @Service
 public class QuizService {
@@ -47,6 +48,21 @@ public class QuizService {
             questionWrappers.add(qw);
         }
         return new ResponseEntity<>(questionWrappers, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Integer> calculateScore(Integer quizId, List<Response> responses) {
+        Quiz quiz = quizDao.findById(quizId).orElse(null);
+        List<Question> questions = quiz.getQuestions();
+        int right= 0;
+        int i = 0;
+        
+        for(Response response : responses){
+            if(response.getResponse().equals(questions.get(i).getRightAnswer())){
+                right++;
+            }
+            i++;
+        }
+        return new ResponseEntity<>(right, HttpStatus.OK);
     }
 
 
