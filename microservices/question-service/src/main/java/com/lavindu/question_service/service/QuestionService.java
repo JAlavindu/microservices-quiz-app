@@ -52,4 +52,18 @@ public class QuestionService {
         return new ResponseEntity<>(wrappers, HttpStatus.OK);
     }
 
+    public ResponseEntity<Integer> getScore(List<Response> responses) {
+        int right= 0;
+        
+        for(Response response : responses){
+            Question question = questionDao.findById(response.getId()).get();
+            if(response.getResponse().equals(question.getRightAnswer())){
+                right++;
+            }
+        }
+        return new ResponseEntity<>(right, HttpStatus.OK);
+    }
+
+    
+
 }
