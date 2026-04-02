@@ -25,5 +25,12 @@ public class QuestionService {
     public void addQuestion(Question question) {
         questionDao.save(question);
     }
+
+    public ResponseEntity<List<Integer>> getQuestionsForQuiz(String categoryName, Integer numQuestions) {
+        List<Integer> questions = questionDao.findRandomQuestionsByCategory(categoryName, numQuestions);
+        
+
+        return new ResponseEntity<>(questions, HttpStatus.OK);
+    }
     
 }

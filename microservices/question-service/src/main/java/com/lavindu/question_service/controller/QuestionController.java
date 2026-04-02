@@ -55,4 +55,9 @@ public class QuestionController {
         }
         return new ResponseEntity<>("Failed to add question", HttpStatus.BAD_REQUEST);
     }
+
+    @GetMapping("generate")
+    public ResponseEntity<List<Integer>> getQuestionsForQuiz(@RequestParam String categoryName, @RequestParam Integer numQuestions) {
+        return questionService.getQuestionsForQuiz(categoryName, numQuestions);
+    }
 }
