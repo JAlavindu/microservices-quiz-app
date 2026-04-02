@@ -36,8 +36,7 @@ public class QuizController {
 
     @PostMapping("submit/{quizId}")
     public ResponseEntity<Integer> submitQuiz(@PathVariable Integer quizId, @RequestBody List<Response> responses) {
-        // Implement logic to calculate score based on selected options and correct answers
-        int score = quizService.calculateScore(quizId, responses);
-        return ResponseEntity.ok(score);
+        ResponseEntity<Integer> score = quizService.calculateScore(quizId, responses);
+        return score;
     }
 }
