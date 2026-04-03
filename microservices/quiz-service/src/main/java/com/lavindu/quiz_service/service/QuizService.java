@@ -20,17 +20,17 @@ public class QuizService {
     @Autowired
     private QuizDao quizDao;
 
-    // @Autowired
-    // private QuestionDao questionDao;
+    @Autowired
+    private QuizInterface quizInterface;
 
 
     public ResponseEntity<String> createQuiz(String category, int numQuestions, String title) {
-        // List<Question> questions = questionDao.findRandomQuestionsByCategory(category, numQuestions);
-        // Quiz quiz = new Quiz();
-        // quiz.setTitle(title);
-        // quiz.setQuestions(questions);
-        // quizDao.save(quiz);
-
+        List<Integer> questions = quizInterface.getQuestionsForQuiz(category, numQuestions).getBody();
+        Quiz quiz = new Quiz();
+        quiz.setTitle(title);
+        quiz.setCategory(category);
+        quiz.setQuestionIds(questions);
+        quizDao.save(quiz);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 

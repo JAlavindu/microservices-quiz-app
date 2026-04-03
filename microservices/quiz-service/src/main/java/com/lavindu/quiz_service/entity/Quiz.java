@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ElementCollection;
 import lombok.Data;
 
 @Data
@@ -18,6 +19,7 @@ public class Quiz {
     private Integer id;
     private String title;
 
-    @ManyToMany
-    private List<Question> questions;
+    //@ManyToMany use when using entity relationship, here we are just storing question ids in quiz table, so we can get the questions from question service using those ids
+    @ElementCollection
+    private List<Integer> questionIds;
 }
